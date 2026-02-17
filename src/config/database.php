@@ -1,19 +1,23 @@
 <?php
 
-$dsn = sprintf(
-    "pgsql:host=%s;port=%s;dbname=%s",
-    $_ENV['DB_HOST'],
-    $_ENV['DB_PORT'],
-    $_ENV['DB_NAME']
-);
+$databaseUrl = getenv('DATABASE_URL');
 
-try {
-    $pdo = new PDO(
-        $dsn,
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASS'],
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-    );
-} catch (PDOException $e) {
-    die("Database connection failed.");
+if ($databaseUrl) {
+    $parsed = parse_url($databaseUrl);
+
+    $host = $parsed['host'];
+    $port = $parsed['port'];
+    $user = $parsed['user'];
+    $pass = $parsed['pass'];
+    $db   = ltrim($parsed['path'], '/');
+
+    $dsn = "pgsql:host=$host;port=$port;dbname=$db";
+    $pdo = new PDO($dsn, $user, $pass);
+} else {
+    // Local Docker fallback
+    $dsn = "pgsql:host=db;port=5432;dbname=pokedex";
+    $pdo = new PDO($dsn, "postgres", "postgres");
 }
+
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
