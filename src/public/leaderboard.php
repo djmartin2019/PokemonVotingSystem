@@ -3,9 +3,9 @@
 require_once __DIR__ . '/../config/database.php';
 
 $stmt = $pdo->query("
-    SELECT name, sprite_url, vote_count
+    SELECT name, sprite_url, vote_count, elo_rating
     FROM pokemon
-    ORDER BY vote_count DESC
+    ORDER BY elo_rating DESC
     LIMIT 20
     ");
 
@@ -30,6 +30,7 @@ $leaders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <img src="<?= $p['sprite_url'] ?>" alt="<?= $p['name'] ?>">
         <div class="leader-info">
             <span class="leader-name"><?= ucfirst($p['name']) ?></span>
+            <span class="leader-votes">Elo Rating: <?= $p['elo_rating'] ?></span>
             <span class="leader-votes"><?= $p['vote_count'] ?> votes</span>
         </div>
     </div>
