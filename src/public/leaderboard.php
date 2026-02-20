@@ -21,7 +21,7 @@ $leaders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Leaderboard</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="page-leaderboard">
 
 <h1 class="leaderboard-title">Top 20 Pokémon</h1>
 

@@ -888,6 +888,77 @@ a:focus-visible::after {
     }
 }
 
+@media (max-width: 768px) {
+    /* Voting page only: keep all interactive elements visible in one viewport */
+    .page-vote {
+        height: 100dvh;
+        max-height: 100dvh;
+        overflow: hidden;
+    }
+
+    .page-vote h1 {
+        height: 9dvh;
+        min-height: 9dvh;
+        max-height: 9dvh;
+        line-height: 1.1 !important;
+        font-size: clamp(0.85rem, 2.1vh, 1.05rem) !important;
+    }
+
+    .page-vote .container {
+        height: 67dvh;
+        min-height: 67dvh;
+        max-height: 67dvh;
+        overflow: hidden;
+        gap: 0;
+    }
+
+    .page-vote .vote-form {
+        min-height: 31dvh;
+        max-height: 31dvh;
+        padding: 8px 12px;
+    }
+
+    .page-vote .vs-divider {
+        height: 5dvh;
+        min-height: 5dvh;
+        max-height: 5dvh;
+        flex: 0 0 5dvh;
+    }
+
+    .page-vote .card {
+        padding: 10px 8px !important;
+    }
+
+    .page-vote .card img {
+        max-width: 72%;
+        max-height: 58%;
+        margin-bottom: 6px !important;
+    }
+
+    .page-vote .card h3 {
+        font-size: clamp(0.9rem, 2.1vh, 1.1rem) !important;
+    }
+
+    .page-vote .leaderboard-link {
+        margin: 6px 12px !important;
+        padding: 0;
+        flex-shrink: 0;
+    }
+
+    .page-vote .leaderboard-link a {
+        padding: 10px 14px;
+        font-size: clamp(0.78rem, 1.8vh, 0.9rem) !important;
+    }
+
+    .page-vote .site-footer {
+        min-height: 8dvh;
+        max-height: 8dvh;
+        margin-top: 0 !important;
+        padding: 6px 8px !important;
+        font-size: clamp(0.5rem, 1.3vh, 0.62rem) !important;
+    }
+}
+
 /* ===================== */
 /* ACCESSIBILITY & FOCUS */
 /* ===================== */

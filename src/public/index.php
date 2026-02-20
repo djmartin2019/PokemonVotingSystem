@@ -26,7 +26,7 @@ if (count($pokemon) < 2) {
     <title>Pokémon Vote</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="page-vote">
 
 <h1>Which Pokémon Do You Prefer?</h1>
 
