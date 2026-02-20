@@ -18,9 +18,11 @@ if (count($pokemon) < 2) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Vote for your favorite Pokémon in this cyberpunk-style ranking system">
     <title>Pokémon Vote</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -35,27 +37,31 @@ $second = $pokemon[1];
 
 <div class="container">
 
-    <form method="POST" action="vote.php">
+    <form method="POST" action="vote.php" class="vote-form">
         <input type="hidden" name="winner_id" value="<?= $first['id'] ?>">
         <input type="hidden" name="loser_id" value="<?= $second['id'] ?>">
-        <button class="card" type="submit">
-            <img src="<?= $first['sprite_url'] ?>" alt="<?= $first['name'] ?>">
-            <h3><?= ucfirst($first['name']) ?></h3>
+        <button class="card" type="submit" aria-label="Vote for <?= htmlspecialchars($first['name']) ?>">
+            <img src="<?= htmlspecialchars($first['sprite_url']) ?>" alt="<?= htmlspecialchars($first['name']) ?>" loading="lazy">
+            <h3><?= htmlspecialchars(ucfirst($first['name'])) ?></h3>
         </button>
     </form>
 
-    <form method="POST" action="vote.php">
+    <div class="vs-divider" aria-hidden="true">
+        <span class="vs-text">VS</span>
+    </div>
+
+    <form method="POST" action="vote.php" class="vote-form">
         <input type="hidden" name="winner_id" value="<?= $second['id'] ?>">
         <input type="hidden" name="loser_id" value="<?= $first['id'] ?>">
-        <button class="card" type="submit">
-            <img src="<?= $second['sprite_url'] ?>" alt="<?= $second['name'] ?>">
-            <h3><?= ucfirst($second['name']) ?></h3>
+        <button class="card" type="submit" aria-label="Vote for <?= htmlspecialchars($second['name']) ?>">
+            <img src="<?= htmlspecialchars($second['sprite_url']) ?>" alt="<?= htmlspecialchars($second['name']) ?>" loading="lazy">
+            <h3><?= htmlspecialchars(ucfirst($second['name'])) ?></h3>
         </button>
     </form>
 
 </div>
 
-<p><a href="leaderboard.php">View Leaderboard</a></p>
+<p class="leaderboard-link"><a href="leaderboard.php">View Leaderboard →</a></p>
 
 <footer class="site-footer">
     <p>

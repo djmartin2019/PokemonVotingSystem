@@ -13,9 +13,11 @@ $leaders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Top 20 Pokémon ranked by ELO rating">
     <title>Leaderboard</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -26,12 +28,16 @@ $leaders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="leaderboard">
 <?php foreach ($leaders as $index => $p): ?>
     <div class="leader-row">
-        <div class="rank">#<?= $index + 1 ?></div>
-        <img src="<?= $p['sprite_url'] ?>" alt="<?= $p['name'] ?>">
-        <div class="leader-info">
-            <span class="leader-name"><?= ucfirst($p['name']) ?></span>
-            <span class="leader-votes">Elo Rating: <?= $p['elo_rating'] ?></span>
-            <span class="leader-votes"><?= $p['vote_count'] ?> votes</span>
+        <div class="leader-header">
+            <div class="rank">#<?= $index + 1 ?></div>
+            <span class="leader-name"><?= htmlspecialchars(ucfirst($p['name'])) ?></span>
+        </div>
+        <div class="leader-content">
+            <img src="<?= htmlspecialchars($p['sprite_url']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" loading="lazy">
+            <div class="leader-info">
+                <span class="leader-votes">Elo Rating: <?= htmlspecialchars($p['elo_rating']) ?></span>
+                <span class="leader-votes"><?= htmlspecialchars($p['vote_count']) ?> votes</span>
+            </div>
         </div>
     </div>
 <?php endforeach; ?>
