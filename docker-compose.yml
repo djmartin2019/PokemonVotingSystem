@@ -4,9 +4,7 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     ports:
-      - "8080:80"
-    volumes:
-      - ./src:/var/www/html
+      - "127.0.0.1:18080:80"
     env_file:
       - .env
     depends_on:
@@ -19,8 +17,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: pokedex
-    ports:
-      - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
 
