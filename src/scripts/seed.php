@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../src/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 const POKEAPI_LIST_URL = 'https://pokeapi.co/api/v2/pokemon?limit=2000';
 const REQUEST_TIMEOUT_SECONDS = 20;
