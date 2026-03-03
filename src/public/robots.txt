@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pokevote.djm-apps.com/sitemap.xml

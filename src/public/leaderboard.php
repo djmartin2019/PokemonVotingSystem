@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/includes/seo.php';
 
 $stmt = $pdo->query("
     SELECT name, sprite_url, vote_count, elo_rating
@@ -15,10 +16,11 @@ $leaders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Top 20 Pokémon ranked by ELO rating">
-    <title>Leaderboard</title>
+    <?= renderSeoHead([
+        'title' => 'PokeVote Leaderboard - Top Ranked Pokemon',
+        'description' => 'See the top ranked Pokemon based on community voting and Elo ratings. Data comes from PokeAPI. Fan project, not affiliated with Nintendo or The Pokemon Company.',
+        'path' => '/leaderboard.php',
+    ]) ?>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="page-leaderboard">

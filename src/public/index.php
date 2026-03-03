@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/includes/seo.php';
 
 // Get two random Pokémon
 $stmt = $pdo->query("
@@ -20,10 +21,11 @@ if (count($pokemon) < 2) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Vote for your favorite Pokémon in this cyberpunk-style ranking system">
-    <title>Pokémon Vote</title>
+    <?= renderSeoHead([
+        'title' => 'PokeVote - Vote for Your Favorite Pokemon',
+        'description' => 'Choose between two Pokemon, cast your vote, and help shape the live rankings. Data comes from PokeAPI. Fan project, not affiliated with Nintendo or The Pokemon Company.',
+        'path' => '/',
+    ]) ?>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="page-vote">

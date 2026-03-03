@@ -1,2 +1,14 @@
 .env
 dev.sh
+
+# Local terminal/output artifacts
+/[[]internal]
+/=
+/CACHED
+/FETCH_HEAD
+/exporting
+/naming
+/reading
+/resolving
+/transferring
+/writing
