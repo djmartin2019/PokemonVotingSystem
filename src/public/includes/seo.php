@@ -20,12 +20,18 @@ function renderSeoHead(array $options = []): string
     $robots = $options['robots'] ?? 'index,follow,max-image-preview:large';
     $canonical = $baseUrl . $path;
     $siteName = 'PokeVote';
+    $imagePath = $options['image_path'] ?? '/assets/images/pokevote.png';
+    $faviconPath = $options['favicon_path'] ?? '/assets/images/favicon.png';
+    $imageUrl = $baseUrl . $imagePath;
+    $faviconUrl = $baseUrl . $faviconPath;
 
     $titleEsc = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
     $descEsc = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
     $canonicalEsc = htmlspecialchars($canonical, ENT_QUOTES, 'UTF-8');
     $robotsEsc = htmlspecialchars($robots, ENT_QUOTES, 'UTF-8');
     $siteNameEsc = htmlspecialchars($siteName, ENT_QUOTES, 'UTF-8');
+    $imageEsc = htmlspecialchars($imageUrl, ENT_QUOTES, 'UTF-8');
+    $faviconEsc = htmlspecialchars($faviconUrl, ENT_QUOTES, 'UTF-8');
     $jsonLd = [
         '@context' => 'https://schema.org',
         '@type' => 'WebSite',
@@ -53,14 +59,19 @@ function renderSeoHead(array $options = []): string
 <meta name="description" content="{$descEsc}">
 <meta name="robots" content="{$robotsEsc}">
 <link rel="canonical" href="{$canonicalEsc}">
+<link rel="icon" type="image/png" href="{$faviconEsc}">
+<link rel="shortcut icon" type="image/png" href="{$faviconEsc}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{$siteNameEsc}">
 <meta property="og:title" content="{$titleEsc}">
 <meta property="og:description" content="{$descEsc}">
 <meta property="og:url" content="{$canonicalEsc}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{$imageEsc}">
+<meta property="og:image:alt" content="PokeVote tournament-style Pokemon matchup banner">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{$titleEsc}">
 <meta name="twitter:description" content="{$descEsc}">
+<meta name="twitter:image" content="{$imageEsc}">
 <script type="application/ld+json">{$jsonLdEsc}</script>
 HTML;
 }

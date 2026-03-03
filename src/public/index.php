@@ -71,7 +71,7 @@ $second = $pokemon[1];
         <a href="https://pokeapi.co/" target="_blank" rel="noopener">
             PokéAPI
         </a>
-        • Not affiliated with Nintendo or The Pokémon Company
+        . This is a fan-made project and is not affiliated with or endorsed by Nintendo, Game Freak, or The Pokémon Company.
     </p>
 </footer>
 
