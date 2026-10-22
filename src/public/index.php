@@ -2,10 +2,11 @@
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/includes/seo.php';
+require_once __DIR__ . '/includes/layout.php';
 
 // Get two random Pokémon
 $stmt = $pdo->query("
-    SELECT id, name, sprite_url
+    SELECT id, name, sprite_url, generation, elo_rating, vote_count
     FROM pokemon
     ORDER BY RANDOM()
     LIMIT 2
@@ -16,8 +17,14 @@ $pokemon = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if (count($pokemon) < 2) {
     die("Not enough Pokémon in DB.");
 }
-?>
 
+$totalVotes = (int) $pdo->query("SELECT COUNT(*) FROM votes")->fetchColumn();
+
+$sides = [
+    'left'  => [$pokemon[0], $pokemon[1]],
+    'right' => [$pokemon[1], $pokemon[0]],
+];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,54 +33,74 @@ if (count($pokemon) < 2) {
         'description' => 'Choose between two Pokemon, cast your vote, and help shape the live rankings. Data comes from PokeAPI. Fan project, not affiliated with Nintendo or The Pokemon Company.',
         'path' => '/',
     ]) ?>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <?= renderHeadAssets() ?>
 </head>
-<body class="page-vote">
+<body class="page-arena">
 
-<h1>Which Pokémon Do You Prefer?</h1>
+<?= renderHeader('arena') ?>
 
-<?php
-$first = $pokemon[0];
-$second = $pokemon[1];
-?>
-
-<div class="container">
-
-    <form method="POST" action="vote.php" class="vote-form">
-        <input type="hidden" name="winner_id" value="<?= $first['id'] ?>">
-        <input type="hidden" name="loser_id" value="<?= $second['id'] ?>">
-        <button class="card" type="submit" aria-label="Vote for <?= htmlspecialchars($first['name']) ?>">
-            <img src="<?= htmlspecialchars($first['sprite_url']) ?>" alt="<?= htmlspecialchars($first['name']) ?>" loading="lazy">
-            <h3><?= htmlspecialchars(ucfirst($first['name'])) ?></h3>
-        </button>
-    </form>
-
-    <div class="vs-divider" aria-hidden="true">
-        <span class="vs-text">VS</span>
+<main class="arena">
+    <div class="intro">
+        <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Live arena · <?= number_format($totalVotes) ?> battles logged</p>
+        <h1 class="intro__title">Who takes the <span class="grad">win</span>?</h1>
+        <p class="intro__sub">Pick your favorite. Every vote shifts the Elo rankings in real time.</p>
     </div>
 
-    <form method="POST" action="vote.php" class="vote-form">
-        <input type="hidden" name="winner_id" value="<?= $second['id'] ?>">
-        <input type="hidden" name="loser_id" value="<?= $first['id'] ?>">
-        <button class="card" type="submit" aria-label="Vote for <?= htmlspecialchars($second['name']) ?>">
-            <img src="<?= htmlspecialchars($second['sprite_url']) ?>" alt="<?= htmlspecialchars($second['name']) ?>" loading="lazy">
-            <h3><?= htmlspecialchars(ucfirst($second['name'])) ?></h3>
-        </button>
-    </form>
+    <div class="matchup">
+        <?php foreach ($sides as $side => [$p, $opponent]): ?>
+            <?php if ($side === 'right'): ?>
+                <div class="vs" aria-hidden="true">
+                    <span class="vs__line"></span>
+                    <span class="vs__core"><span class="vs__ring"></span><span class="vs__text">VS</span></span>
+                    <span class="vs__line"></span>
+                </div>
+            <?php endif; ?>
 
-</div>
+            <form method="POST" action="vote.php" class="contender contender--<?= $side ?>">
+                <input type="hidden" name="winner_id" value="<?= (int) $p['id'] ?>">
+                <input type="hidden" name="loser_id" value="<?= (int) $opponent['id'] ?>">
+                <button class="card" type="submit" aria-label="Vote for <?= e(pokeName($p['name'])) ?>">
+                    <span class="card__glow" aria-hidden="true"></span>
+                    <span class="card__ghost" aria-hidden="true"><?= dexNo((int) $p['id']) ?></span>
 
-<p class="leaderboard-link"><a href="leaderboard.php">View Leaderboard →</a></p>
+                    <span class="card__hud">
+                        <span class="chip chip--mono">#<?= dexNo((int) $p['id']) ?></span>
+                        <span class="chip"><?= e(genLabel((int) $p['generation'])) ?></span>
+                    </span>
 
-<footer class="site-footer">
-    <p>
-        Pokémon data provided by
-        <a href="https://pokeapi.co/" target="_blank" rel="noopener">
-            PokéAPI
+                    <span class="card__art">
+                        <span class="card__halo" aria-hidden="true"></span>
+                        <img src="<?= e($p['sprite_url']) ?>" alt="" width="475" height="475" fetchpriority="high" decoding="async">
+                        <span class="card__floor" aria-hidden="true"></span>
+                    </span>
+
+                    <span class="card__meta">
+                        <span class="card__name"><?= e(pokeName($p['name'])) ?></span>
+                        <span class="card__stats">
+                            <span class="stat"><span class="stat__label">Elo</span><span class="stat__value"><?= number_format((int) $p['elo_rating']) ?></span></span>
+                            <span class="stat"><span class="stat__label">Votes</span><span class="stat__value"><?= number_format((int) $p['vote_count']) ?></span></span>
+                        </span>
+                    </span>
+
+                    <span class="card__cta">
+                        <span>Choose</span>
+                        <kbd><?= $side === 'left' ? '←' : '→' ?></kbd>
+                    </span>
+                </button>
+            </form>
+        <?php endforeach; ?>
+    </div>
+
+    <div class="arena__actions">
+        <a class="btn btn--ghost" href="index.php" data-reroll>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10a6 6 0 1 1-1.76-4.24M16 4v3.5h-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            New matchup
         </a>
-        . This is a fan-made project and is not affiliated with or endorsed by Nintendo, Game Freak, or The Pokémon Company.
-    </p>
-</footer>
+        <span class="hint"><kbd>←</kbd><kbd>→</kbd> vote <span class="hint__sep"></span><kbd>R</kbd> reroll</span>
+    </div>
+</main>
+
+<?= renderFooter() ?>
 
 </body>
 </html>
