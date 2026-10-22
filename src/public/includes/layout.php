@@ -56,14 +56,6 @@ function renderHeader(string $active): string
     $stats = $active === 'stats' ? ' is-active" aria-current="page' : '';
 
     return <<<HTML
-<div class="backdrop" aria-hidden="true">
-    <div class="backdrop__orb backdrop__orb--a"></div>
-    <div class="backdrop__orb backdrop__orb--b"></div>
-    <div class="backdrop__orb backdrop__orb--c"></div>
-    <div class="backdrop__grid"></div>
-    <div class="backdrop__noise"></div>
-</div>
-
 <header class="site-header">
     <a class="brand" href="index.php" aria-label="PokeVote home">
         <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">

@@ -137,94 +137,6 @@ kbd {
 }
 
 /* --------------------------------------------------------------------------
-   Backdrop: aurora glow, perspective grid, film grain
-   -------------------------------------------------------------------------- */
-
-.backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
-    pointer-events: none;
-    contain: strict;
-    background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(164, 123, 255, 0.14), transparent 70%),
-        var(--bg);
-}
-
-.backdrop__orb {
-    position: absolute;
-    width: 55vmax;
-    height: 55vmax;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.28;
-    will-change: transform;
-}
-
-.backdrop__orb--a {
-    top: -28vmax;
-    left: -18vmax;
-    background: radial-gradient(circle, var(--violet), transparent 65%);
-    animation: drift-a 26s ease-in-out infinite alternate;
-}
-
-.backdrop__orb--b {
-    top: -22vmax;
-    right: -22vmax;
-    background: radial-gradient(circle, var(--cyan), transparent 65%);
-    opacity: 0.2;
-    animation: drift-b 32s ease-in-out infinite alternate;
-}
-
-.backdrop__orb--c {
-    bottom: -38vmax;
-    left: 20%;
-    background: radial-gradient(circle, var(--magenta), transparent 65%);
-    opacity: 0.12;
-    animation: drift-a 38s ease-in-out infinite alternate-reverse;
-}
-
-.backdrop__grid {
-    position: absolute;
-    left: -50%;
-    right: -50%;
-    top: 52%;
-    height: 120%;
-    background-image:
-        linear-gradient(rgba(94, 240, 255, 0.13) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(94, 240, 255, 0.13) 1px, transparent 1px);
-    background-size: 64px 64px;
-    transform: perspective(700px) rotateX(62deg) translate3d(0, 0, 0);
-    transform-origin: 50% 0;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 45%, transparent 85%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 45%, transparent 85%);
-    animation: grid-scroll 6s linear infinite;
-    opacity: 0.55;
-    will-change: transform;
-}
-
-.backdrop__noise {
-    position: absolute;
-    inset: 0;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
-@keyframes drift-a {
-    to { transform: translate3d(8vmax, 6vmax, 0) scale(1.1); }
-}
-
-@keyframes drift-b {
-    to { transform: translate3d(-10vmax, 8vmax, 0) scale(0.92); }
-}
-
-/* Moving by exactly one cell loops seamlessly */
-@keyframes grid-scroll {
-    to { transform: perspective(700px) rotateX(62deg) translate3d(0, 64px, 0); }
-}
-
-/* --------------------------------------------------------------------------
    Header
    -------------------------------------------------------------------------- */
 
@@ -2339,6 +2251,28 @@ main {
     }
 }
 
+/* Phones and touch devices: no idle motion.
+   Constant animation is cheap on desktop GPUs but drains phones. */
+@media (max-width: 720px), (pointer: coarse) {
+    .card__art img,
+    .card__floor,
+    .profile__art img,
+    .vs__ring {
+        animation: none;
+    }
+
+    /* Even this tiny looping pulse keeps a phone redrawing every frame */
+    .pulse::after {
+        display: none;
+    }
+
+    .site-header::before {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        background: linear-gradient(to bottom, rgba(5, 6, 13, 0.96) 60%, rgba(5, 6, 13, 0));
+    }
+}
+
 /* Short desktop screens: keep both cards above the fold */
 @media (min-width: 721px) and (max-height: 820px) {
     .card__art img {
@@ -2374,7 +2308,6 @@ main {
 }
 
 @media print {
-    .backdrop,
     .site-header,
     .arena__actions,
     .card__cta {
