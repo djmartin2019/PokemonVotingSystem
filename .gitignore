@@ -12,3 +12,6 @@ dev.sh
 /resolving
 /transferring
 /writing
+
+# Resized sprite cache (generated at runtime)
+/src/public/sprites/

@@ -80,7 +80,7 @@ $medals = ['gold', 'silver', 'bronze'];
                 </div>
                 <div class="podium__art">
                     <span class="card__halo" aria-hidden="true"></span>
-                    <img src="<?= e($p['sprite_url']) ?>" alt="<?= e(pokeName($p['name'])) ?>" width="475" height="475" decoding="async">
+                    <img src="<?= Sprite::url((int) $p['id'], 'large') ?>" alt="<?= e(pokeName($p['name'])) ?>" width="480" height="480" decoding="async">
                 </div>
                 <h2 class="podium__name"><a href="pokemon.php?id=<?= (int) $p['id'] ?>"><?= e(pokeName($p['name'])) ?></a></h2>
                 <div class="card__stats">
@@ -100,7 +100,7 @@ $medals = ['gold', 'silver', 'bronze'];
         <?php foreach ($rest as $i => $p): ?>
             <li class="rankrow" style="--i: <?= $i ?>">
                 <span class="rankrow__rank"><?= sprintf('%02d', $i + 4) ?></span>
-                <img class="rankrow__img" src="<?= e($p['sprite_url']) ?>" alt="" width="56" height="56" loading="lazy" decoding="async">
+                <img class="rankrow__img" src="<?= Sprite::url((int) $p['id']) ?>" alt="" width="56" height="56" loading="lazy" decoding="async">
                 <span class="rankrow__who">
                     <span class="rankrow__name"><a href="pokemon.php?id=<?= (int) $p['id'] ?>"><?= e(pokeName($p['name'])) ?></a></span>
                     <span class="rankrow__dex">#<?= dexNo((int) $p['id']) ?> · <?= e(genLabel((int) $p['generation'])) ?></span>

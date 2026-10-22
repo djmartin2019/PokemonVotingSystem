@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/Elo.php';
+require_once __DIR__ . '/Sprite.php';
 
 /**
  * Queries behind the stats and Pokémon detail pages.
@@ -85,7 +86,7 @@ final class Stats
             $series[(int) $p['id']] = [
                 'id'     => (int) $p['id'],
                 'name'   => $p['name'],
-                'sprite' => $p['sprite_url'],
+                'sprite' => Sprite::url((int) $p['id']),
                 'ranks'  => [],
                 'elos'   => [],
             ];
@@ -153,7 +154,7 @@ final class Stats
     public function field(): array
     {
         $rows = $this->pdo->query("
-            SELECT id, name, generation, elo_rating, sprite_url
+            SELECT id, name, generation, elo_rating
             FROM pokemon
             ORDER BY id
         ")->fetchAll(PDO::FETCH_ASSOC);
@@ -163,7 +164,6 @@ final class Stats
             $r['name'],
             (int) $r['generation'],
             (int) $r['elo_rating'],
-            $r['sprite_url'],
         ], $rows);
     }
 

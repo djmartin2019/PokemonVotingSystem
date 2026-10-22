@@ -7,6 +7,9 @@ services:
       - "127.0.0.1:18080:80"
     env_file:
       - .env
+    volumes:
+      # Keep resized sprites across rebuilds
+      - sprite_cache:/var/www/html/public/sprites
     depends_on:
       - db
 
@@ -24,3 +27,4 @@ services:
 
 volumes:
   pg_data:
+  sprite_cache:

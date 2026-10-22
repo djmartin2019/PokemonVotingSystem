@@ -172,7 +172,7 @@ $hasRace = count($race['points']) >= 2;
                         <span class="upset__rank"><?= sprintf('%02d', $i + 1) ?></span>
                         <span class="upset__duel">
                             <a class="upset__mon" href="pokemon.php?id=<?= (int) $u['winner_id'] ?>">
-                                <img src="<?= e($u['winner_sprite']) ?>" alt="" width="64" height="64" loading="lazy" decoding="async">
+                                <img src="<?= Sprite::url((int) $u['winner_id']) ?>" alt="" width="64" height="64" loading="lazy" decoding="async">
                                 <span>
                                     <span class="upset__name"><?= e(pokeName($u['winner_name'])) ?></span>
                                     <span class="upset__elo"><?= number_format((int) $u['winner_elo_before']) ?></span>
@@ -180,7 +180,7 @@ $hasRace = count($race['points']) >= 2;
                             </a>
                             <span class="upset__beat">beat</span>
                             <a class="upset__mon upset__mon--loser" href="pokemon.php?id=<?= (int) $u['loser_id'] ?>">
-                                <img src="<?= e($u['loser_sprite']) ?>" alt="" width="64" height="64" loading="lazy" decoding="async">
+                                <img src="<?= Sprite::url((int) $u['loser_id']) ?>" alt="" width="64" height="64" loading="lazy" decoding="async">
                                 <span>
                                     <span class="upset__name"><?= e(pokeName($u['loser_name'])) ?></span>
                                     <span class="upset__elo"><?= number_format((int) $u['loser_elo_before']) ?></span>

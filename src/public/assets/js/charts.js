@@ -294,7 +294,7 @@
         if (!container || !raw || !raw.length) return;
 
         const roman = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
-        const field = raw.map(([id, name, gen, elo, sprite]) => ({ id, name: titleCase(name), gen, elo, sprite }));
+        const field = raw.map(([id, name, gen, elo]) => ({ id, name: titleCase(name), gen, elo, sprite: `sprites/small/${id}.webp` }));
         const gens = [...new Set(field.map((p) => p.gen))].sort((a, b) => a - b);
 
         const median = (values) => {

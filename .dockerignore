@@ -1,0 +1,2 @@
+# Runtime sprite cache is built on the server, never baked into the image
+src/public/sprites/

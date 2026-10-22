@@ -2,6 +2,33 @@
    PokeVote — interface styles
    ========================================================================== */
 
+/* Self-hosted variable fonts (latin subset), one file per family */
+@font-face {
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url('../fonts/space-grotesk-latin.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url('../fonts/jetbrains-mono-latin.woff2') format('woff2');
+}
+
+/* Smooth cross-fade between pages (supporting browsers only) */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.18s;
+}
+
 :root {
     color-scheme: dark;
 
@@ -119,6 +146,7 @@ kbd {
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
+    contain: strict;
     background:
         radial-gradient(ellipse 80% 50% at 50% -10%, rgba(164, 123, 255, 0.14), transparent 70%),
         var(--bg);
@@ -167,19 +195,19 @@ kbd {
         linear-gradient(rgba(94, 240, 255, 0.13) 1px, transparent 1px),
         linear-gradient(90deg, rgba(94, 240, 255, 0.13) 1px, transparent 1px);
     background-size: 64px 64px;
-    transform: perspective(700px) rotateX(62deg);
+    transform: perspective(700px) rotateX(62deg) translate3d(0, 0, 0);
     transform-origin: 50% 0;
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 45%, transparent 85%);
     mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 45%, transparent 85%);
     animation: grid-scroll 6s linear infinite;
     opacity: 0.55;
+    will-change: transform;
 }
 
 .backdrop__noise {
     position: absolute;
     inset: 0;
-    opacity: 0.06;
-    mix-blend-mode: overlay;
+    opacity: 0.035;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
@@ -191,8 +219,9 @@ kbd {
     to { transform: translate3d(-10vmax, 8vmax, 0) scale(0.92); }
 }
 
+/* Moving by exactly one cell loops seamlessly */
 @keyframes grid-scroll {
-    to { background-position: 0 64px, 0 0; }
+    to { transform: perspective(700px) rotateX(62deg) translate3d(0, 64px, 0); }
 }
 
 /* --------------------------------------------------------------------------
@@ -265,9 +294,7 @@ kbd {
     padding: 4px;
     border: 1px solid var(--line);
     border-radius: 999px;
-    background: rgba(13, 15, 30, 0.6);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
+    background: rgba(13, 15, 30, 0.75);
 }
 
 .nav__link {
@@ -305,7 +332,7 @@ main {
 .intro {
     text-align: center;
     margin-bottom: clamp(24px, 4vh, 44px);
-    animation: rise 0.8s var(--ease-out) both;
+    animation: rise 0.45s var(--ease-out) both;
 }
 
 .eyebrow {
@@ -362,7 +389,7 @@ main {
 }
 
 @keyframes rise {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: none; }
 }
 
@@ -436,9 +463,7 @@ main {
     border-radius: var(--radius-lg);
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015) 60%),
-        rgba(11, 13, 26, 0.55);
-    -webkit-backdrop-filter: blur(22px) saturate(140%);
-    backdrop-filter: blur(22px) saturate(140%);
+        rgba(11, 13, 26, 0.72);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
         0 30px 60px -30px rgba(0, 0, 0, 0.8);
@@ -518,15 +543,15 @@ main {
 
 .contender {
     margin: 0;
-    animation: rise 0.9s var(--ease-out) both;
+    animation: rise 0.5s var(--ease-out) both;
 }
 
 .contender--left {
-    animation-delay: 0.08s;
+    animation-delay: 0.03s;
 }
 
 .contender--right {
-    animation-delay: 0.16s;
+    animation-delay: 0.06s;
 }
 
 .contender--right .card {
@@ -762,7 +787,7 @@ main {
     align-items: center;
     justify-content: center;
     gap: 14px;
-    animation: rise 0.9s var(--ease-out) 0.12s both;
+    animation: rise 0.5s var(--ease-out) 0.05s both;
 }
 
 .vs__line {
@@ -819,7 +844,7 @@ main {
     justify-content: center;
     gap: 14px 22px;
     margin-top: clamp(24px, 4vh, 40px);
-    animation: rise 0.9s var(--ease-out) 0.25s both;
+    animation: rise 0.5s var(--ease-out) 0.1s both;
 }
 
 .btn {
@@ -899,10 +924,8 @@ main {
     margin: 0 auto clamp(32px, 5vh, 56px);
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    background: rgba(11, 13, 26, 0.5);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    animation: rise 0.8s var(--ease-out) 0.08s both;
+    background: rgba(11, 13, 26, 0.72);
+    animation: rise 0.45s var(--ease-out) 0.04s both;
 }
 
 .statbar__item {
@@ -941,8 +964,8 @@ main {
     display: flex;
     flex-direction: column;
     padding: 18px;
-    animation: rise 0.9s var(--ease-out) both;
-    animation-delay: calc(0.12s + var(--i) * 0.08s);
+    animation: rise 0.5s var(--ease-out) both;
+    animation-delay: calc(0.05s + var(--i) * 0.04s);
 }
 
 .podium__card--gold {
@@ -1062,12 +1085,10 @@ main {
     margin-bottom: 6px;
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    background: rgba(11, 13, 26, 0.45);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    background: rgba(11, 13, 26, 0.66);
     transition: background 0.25s, border-color 0.25s, transform 0.4s var(--ease-out);
-    animation: rise 0.7s var(--ease-out) both;
-    animation-delay: calc(0.3s + var(--i) * 0.035s);
+    animation: rise 0.4s var(--ease-out) both;
+    animation-delay: calc(0.08s + var(--i) * 0.015s);
 }
 
 .rankrow:hover {
@@ -1129,8 +1150,8 @@ main {
     background: var(--grad);
     box-shadow: 0 0 12px rgba(94, 240, 255, 0.5);
     transform-origin: left;
-    animation: bar-grow 1.2s var(--ease-out) both;
-    animation-delay: calc(0.45s + var(--i) * 0.035s);
+    animation: bar-grow 0.7s var(--ease-out) both;
+    animation-delay: calc(0.15s + var(--i) * 0.015s);
 }
 
 @keyframes bar-grow {
@@ -1180,16 +1201,14 @@ main {
     gap: 10px;
     max-width: 1000px;
     margin: 0 auto clamp(20px, 3vh, 32px);
-    animation: rise 0.8s var(--ease-out) 0.08s both;
+    animation: rise 0.45s var(--ease-out) 0.03s both;
 }
 
 .tile {
     padding: 16px 18px;
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    background: rgba(11, 13, 26, 0.55);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
+    background: rgba(11, 13, 26, 0.72);
 }
 
 .tile dt {
@@ -1222,11 +1241,9 @@ main {
     border-radius: var(--radius-lg);
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01) 50%),
-        rgba(11, 13, 26, 0.6);
-    -webkit-backdrop-filter: blur(22px);
-    backdrop-filter: blur(22px);
+        rgba(11, 13, 26, 0.78);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 30px 60px -40px rgba(0, 0, 0, 0.9);
-    animation: rise 0.9s var(--ease-out) 0.15s both;
+    animation: rise 0.5s var(--ease-out) 0.06s both;
 }
 
 .panel__head {
@@ -1569,8 +1586,8 @@ main {
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     background: rgba(255, 255, 255, 0.02);
-    animation: rise 0.7s var(--ease-out) both;
-    animation-delay: calc(0.25s + var(--i) * 0.05s);
+    animation: rise 0.4s var(--ease-out) both;
+    animation-delay: calc(0.08s + var(--i) * 0.025s);
 }
 
 .upset__rank {
@@ -1727,7 +1744,7 @@ main {
     gap: clamp(20px, 4vw, 48px);
     max-width: 1000px;
     margin: 0 auto clamp(24px, 4vh, 40px);
-    animation: rise 0.8s var(--ease-out) both;
+    animation: rise 0.45s var(--ease-out) both;
 }
 
 .profile__art {
@@ -1840,14 +1857,12 @@ main {
     padding: 14px 16px;
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    background: rgba(11, 13, 26, 0.55);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
+    background: rgba(11, 13, 26, 0.72);
     color: inherit;
     text-decoration: none;
     transition: border-color 0.25s, background 0.25s, transform 0.4s var(--ease-out);
-    animation: rise 0.7s var(--ease-out) both;
-    animation-delay: calc(0.2s + var(--i) * 0.06s);
+    animation: rise 0.4s var(--ease-out) both;
+    animation-delay: calc(0.06s + var(--i) * 0.03s);
 }
 
 .highlight:hover {
@@ -2344,6 +2359,10 @@ main {
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+
     *,
     *::before,
     *::after {

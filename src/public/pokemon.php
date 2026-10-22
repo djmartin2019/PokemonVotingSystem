@@ -141,7 +141,7 @@ $shortDate = fn (string $d) => date('M j', strtotime($d));
         <div class="profile__art">
             <span class="card__ghost" aria-hidden="true"><?= dexNo($id) ?></span>
             <span class="card__halo" aria-hidden="true"></span>
-            <img src="<?= e($p['sprite_url']) ?>" alt="<?= e(pokeName($p['name'])) ?>" width="475" height="475" fetchpriority="high" decoding="async">
+            <img src="<?= Sprite::url($id, 'large') ?>" alt="<?= e(pokeName($p['name'])) ?>" width="480" height="480" fetchpriority="high" decoding="async">
         </div>
 
         <div class="profile__info">
@@ -214,7 +214,7 @@ $shortDate = fn (string $d) => date('M j', strtotime($d));
         ?>
         <?php foreach ($cards as $i => $c): ?>
             <a class="highlight" href="pokemon.php?id=<?= (int) $c['id'] ?>" style="--i: <?= $i ?>">
-                <img src="<?= e($c['sprite']) ?>" alt="" width="72" height="72" loading="lazy" decoding="async">
+                <img src="<?= Sprite::url((int) $c['id']) ?>" alt="" width="72" height="72" loading="lazy" decoding="async">
                 <span class="highlight__text">
                     <span class="highlight__label"><?= e($c['label']) ?></span>
                     <span class="highlight__name"><?= e(pokeName($c['name'])) ?></span>
@@ -238,7 +238,7 @@ $shortDate = fn (string $d) => date('M j', strtotime($d));
             <?php foreach ($recent as $b): ?>
                 <li class="battle">
                     <span class="result <?= $b['won'] ? 'result--win' : 'result--loss' ?>"><?= $b['won'] ? 'Won' : 'Lost' ?></span>
-                    <img src="<?= e($b['opp_sprite']) ?>" alt="" width="40" height="40" loading="lazy" decoding="async">
+                    <img src="<?= Sprite::url($b['opp_id']) ?>" alt="" width="40" height="40" loading="lazy" decoding="async">
                     <span class="battle__who">
                         <span class="battle__vs"><?= $b['won'] ? 'vs' : 'to' ?></span>
                         <a href="pokemon.php?id=<?= $b['opp_id'] ?>"><?= e(pokeName($b['opp_name'])) ?></a>

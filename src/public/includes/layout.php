@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../../app/Sprite.php';
+
 /**
  * Shared page chrome (fonts, background, header, footer) and small display helpers.
  */
@@ -38,10 +40,12 @@ function renderHeadAssets(): string
 
     return <<<HTML
 <meta name="theme-color" content="#05060d">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{$css}">
+<script type="speculationrules">
+{"prefetch": [{"where": {"and": [{"href_matches": "/*"}, {"not": {"href_matches": "/vote.php"}}]}, "eagerness": "moderate"}]}
+</script>
 HTML;
 }
 

@@ -70,7 +70,7 @@ $sides = [
 
                     <span class="card__art">
                         <span class="card__halo" aria-hidden="true"></span>
-                        <img src="<?= e($p['sprite_url']) ?>" alt="" width="475" height="475" fetchpriority="high" decoding="async">
+                        <img src="<?= Sprite::url((int) $p['id'], 'large') ?>" alt="" width="480" height="480" fetchpriority="high" decoding="async">
                         <span class="card__floor" aria-hidden="true"></span>
                     </span>
 

@@ -20,4 +20,7 @@ docker compose run --rm --no-deps web php /var/www/html/scripts/migrate.php
 echo "Restarting services..."
 docker compose up -d
 
+echo "Building resized sprites (only missing ones; first run takes a few minutes)..."
+docker compose exec -T -u www-data web php /var/www/html/scripts/warm_sprites.php || echo "Sprite warm-up failed; sprites will be built on first view instead."
+
 echo "Deployment complete."

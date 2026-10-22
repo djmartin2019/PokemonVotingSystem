@@ -21,7 +21,7 @@
         forms.forEach((f) => f.classList.remove('is-chosen', 'is-defeated'));
     };
 
-    // Play a short "chosen" animation, then submit the vote
+    // Submit right away; the "chosen" animation plays while the next matchup loads
     forms.forEach((form) => {
         form.addEventListener('submit', (event) => {
             if (locked) {
@@ -31,11 +31,9 @@
             locked = true;
             if (reduceMotion) return;
 
-            event.preventDefault();
             document.body.classList.add('is-voting');
             form.classList.add('is-chosen');
             forms.filter((f) => f !== form).forEach((f) => f.classList.add('is-defeated'));
-            window.setTimeout(() => form.submit(), 450);
         });
     });
 
