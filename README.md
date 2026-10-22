@@ -22,7 +22,7 @@ Deployed on Render (Web Service + Managed PostgreSQL).
 
 ### Stack
 
-- **PHP 8.2 (Apache)**
+- **PHP 8.2.35 (Apache)**
 - **PostgreSQL 15**
 - **Docker** (local development)
 - **Render** (production hosting)

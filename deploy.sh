@@ -12,7 +12,7 @@ echo "Pulling latest changes..."
 git pull origin vps-migration
 
 echo "Rebuilding containers..."
-docker compose build
+docker compose build --pull
 
 echo "Restarting services..."
 docker compose up -d
