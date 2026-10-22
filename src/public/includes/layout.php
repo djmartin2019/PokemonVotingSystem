@@ -49,6 +49,7 @@ function renderHeader(string $active): string
 {
     $arena = $active === 'arena' ? ' is-active" aria-current="page' : '';
     $ranks = $active === 'ranks' ? ' is-active" aria-current="page' : '';
+    $stats = $active === 'stats' ? ' is-active" aria-current="page' : '';
 
     return <<<HTML
 <div class="backdrop" aria-hidden="true">
@@ -78,6 +79,7 @@ function renderHeader(string $active): string
     <nav class="nav" aria-label="Main">
         <a class="nav__link{$arena}" href="index.php">Arena</a>
         <a class="nav__link{$ranks}" href="leaderboard.php">Rankings</a>
+        <a class="nav__link{$stats}" href="stats.php">Stats</a>
     </nav>
 </header>
 HTML;

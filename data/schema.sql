@@ -13,8 +13,14 @@ CREATE TABLE votes (
   winner_id INT NOT NULL REFERENCES pokemon(id),
   loser_id INT NOT NULL REFERENCES pokemon(id),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  session_hash VARCHAR(64)
+  session_hash VARCHAR(64),
+  winner_elo_before INT,
+  loser_elo_before INT,
+  winner_elo_after INT,
+  loser_elo_after INT
 );
 
 CREATE INDEX idx_votes_created_at ON votes(created_at);
 CREATE INDEX idx_pokemon_elo ON pokemon(elo_rating);
+CREATE INDEX idx_votes_winner ON votes(winner_id);
+CREATE INDEX idx_votes_loser ON votes(loser_id);

@@ -14,6 +14,9 @@ git pull origin vps-migration
 echo "Rebuilding containers..."
 docker compose build --pull
 
+echo "Running database migrations..."
+docker compose run --rm --no-deps web php /var/www/html/scripts/migrate.php
+
 echo "Restarting services..."
 docker compose up -d
 
